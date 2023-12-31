@@ -22,18 +22,13 @@ import 'cesium/Build/Cesium/Widgets/widgets.css';
     terrain: Terrain.fromWorldTerrain(),
   });
 
-  // Fly the camera to San Francisco at the given longitude, latitude, and height.
   viewer.camera.flyTo({
-    destination: Cartesian3.fromDegrees(-122.4175, 37.655, 400),
-    orientation: {
-      heading: CesiumMath.toRadians(0.0),
-      pitch: CesiumMath.toRadians(-15.0),
-    },
+    destination: Cartesian3.fromDegrees(-104.9965, 39.74248, 4000),
   });
 
-  // Add Cesium OSM Buildings, a global 3D buildings layer.
-  const buildingTileset = await createOsmBuildingsAsync();
-  viewer.scene.primitives.add(buildingTileset);
+  // Add Cesium OSM Buildings.
+  const buildingsTileset = await createOsmBuildingsAsync();
+  viewer.scene.primitives.add(buildingsTileset);
 </script>
 
 <Layout title="This is a Cesium Demo.">
