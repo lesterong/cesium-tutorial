@@ -13,6 +13,7 @@ import 'cesium/Build/Cesium/Widgets/widgets.css';
 <script>
   window.CESIUM_BASE_URL = '/cesium';
 
+  import { fade } from 'astro:transitions';
   import {
     Cartesian3,
     createOsmBuildingsAsync,
@@ -24,6 +25,7 @@ import 'cesium/Build/Cesium/Widgets/widgets.css';
     Viewer,
     ConstantProperty,
     ClassificationType,
+    Cesium3DTileStyle,
   } from 'cesium';
 
   Ion.defaultAccessToken = import.meta.env.PUBLIC_CESIUM_TOKEN;
@@ -58,6 +60,28 @@ import 'cesium/Build/Cesium/Widgets/widgets.css';
     viewer.flyTo(dataSource);
   }
   addBuildingGeoJSON();
+
+  // STEP 4 CODE
+  // Hide individual buildings in this area using 3D Tiles Styling language.
+  buildingsTileset.style = new Cesium3DTileStyle({
+    // Create a style rule to control each building's "show" property.
+    show: {
+      conditions: [
+        // Any building that has this elementId will have `show = false`.
+        ['${elementId} === 332469316', false],
+        ['${elementId} === 332469317', false],
+        ['${elementId} === 235368665', false],
+        ['${elementId} === 530288180', false],
+        ['${elementId} === 530288179', false],
+        ['${elementId} === 532245203', false],
+        // If a building does not have one of these elementIds, set `show = true`.
+        [true, true],
+      ],
+    },
+    // Set the default color style for this particular 3D Tileset.
+    // For any building that has a `cesium#color` property, use that color, otherwise make it white.
+    color: "Boolean(${feature['cesium#color']}) ? color(${feature['cesium#color']}) : color('#ffffff')",
+  });
 </script>
 
 <Layout title="This is a Cesium Demo.">
