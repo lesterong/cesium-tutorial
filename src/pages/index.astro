@@ -26,6 +26,7 @@ import 'cesium/Build/Cesium/Widgets/widgets.css';
     ConstantProperty,
     ClassificationType,
     Cesium3DTileStyle,
+    Cesium3DTileset,
   } from 'cesium';
 
   Ion.defaultAccessToken = import.meta.env.PUBLIC_CESIUM_TOKEN;
@@ -82,8 +83,33 @@ import 'cesium/Build/Cesium/Widgets/widgets.css';
     // For any building that has a `cesium#color` property, use that color, otherwise make it white.
     color: "Boolean(${feature['cesium#color']}) ? color(${feature['cesium#color']}) : color('#ffffff')",
   });
+
+  // STEP 6 CODE
+  // Add the 3D Tileset you created from your Cesium ion account.
+  const newBuildingTileset = await Cesium3DTileset.fromIonAssetId(2410598);
+  viewer.scene.primitives.add(newBuildingTileset);
+
+  // Move the camera to the new building.
+  viewer.flyTo(newBuildingTileset);
+
+  // STEP 7 CODE
+  // Toggle the tileset's show property when the button is clicked.
+  document.getElementById('toggle-building')!.onclick = function () {
+    newBuildingTileset.show = !newBuildingTileset.show;
+  };
 </script>
 
+<style type="text/css">
+  #toggle-building {
+    z-index: 1;
+    position: fixed;
+    top: 5px;
+    left: 5px;
+  }
+</style>
+<script></script>
+
 <Layout title="This is a Cesium Demo.">
+  <button id="toggle-building">Toggle new building</button>
   <div id="cesiumContainer"></div>
 </Layout>
