@@ -13,7 +13,6 @@ import 'cesium/Build/Cesium/Widgets/widgets.css';
 <script>
   window.CESIUM_BASE_URL = '/cesium';
 
-  import { fade } from 'astro:transitions';
   import {
     Cartesian3,
     createOsmBuildingsAsync,
@@ -27,6 +26,8 @@ import 'cesium/Build/Cesium/Widgets/widgets.css';
     ClassificationType,
     Cesium3DTileStyle,
     Cesium3DTileset,
+    defined,
+    ScreenSpaceEventType,
   } from 'cesium';
 
   Ion.defaultAccessToken = import.meta.env.PUBLIC_CESIUM_TOKEN;
@@ -97,6 +98,17 @@ import 'cesium/Build/Cesium/Widgets/widgets.css';
   document.getElementById('toggle-building')!.onclick = function () {
     newBuildingTileset.show = !newBuildingTileset.show;
   };
+
+  // screenSpaceEventHandler
+  const handler = viewer.screenSpaceEventHandler;
+  handler.setInputAction(function (movement: any) {
+    const pickedFeature = viewer.scene.pick(movement.position);
+    if (!defined(pickedFeature)) {
+      console.log('No picked feature');
+      return;
+    }
+    console.log(pickedFeature.primitive);
+  }, ScreenSpaceEventType.LEFT_CLICK);
 </script>
 
 <style type="text/css">
