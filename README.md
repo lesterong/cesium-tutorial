@@ -4,7 +4,8 @@ A collection of the Cesium tutorials I've done.
 
 ## Branches
 
-`quickstart`: https://cesium.com/learn/cesiumjs-learn/cesiumjs-quickstart/
+- `quickstart`: https://cesium.com/learn/cesiumjs-learn/cesiumjs-quickstart/
+- `replace-building`: https://cesium.com/learn/cesiumjs-learn/cesiumjs-interactive-building/
 
 ## Getting Started
 
