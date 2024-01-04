@@ -28,6 +28,7 @@ import 'cesium/Build/Cesium/Widgets/widgets.css';
     Cesium3DTileset,
     defined,
     ScreenSpaceEventType,
+    InfoBox,
   } from 'cesium';
 
   Ion.defaultAccessToken = import.meta.env.PUBLIC_CESIUM_TOKEN;
@@ -35,6 +36,7 @@ import 'cesium/Build/Cesium/Widgets/widgets.css';
   // Initialize the Cesium Viewer in the HTML element with the `cesiumContainer` ID.
   const viewer = new Viewer('cesiumContainer', {
     terrain: Terrain.fromWorldTerrain(),
+    infoBox: true,
   });
 
   viewer.camera.flyTo({
@@ -99,15 +101,22 @@ import 'cesium/Build/Cesium/Widgets/widgets.css';
     newBuildingTileset.show = !newBuildingTileset.show;
   };
 
+  const infoBox = new InfoBox(document.body);
+
   // screenSpaceEventHandler
   const handler = viewer.screenSpaceEventHandler;
   handler.setInputAction(function (movement: any) {
     const pickedFeature = viewer.scene.pick(movement.position);
+    infoBox.viewModel.showInfo = false;
     if (!defined(pickedFeature)) {
       console.log('No picked feature');
       return;
     }
     console.log(pickedFeature.primitive);
+    if (defined(pickedFeature) && pickedFeature.primitive === newBuildingTileset) {
+      infoBox.viewModel.description = 'This is the description of the tileset.';
+      infoBox.viewModel.showInfo = true;
+    }
   }, ScreenSpaceEventType.LEFT_CLICK);
 </script>
 
